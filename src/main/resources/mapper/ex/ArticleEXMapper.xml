@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.smalldemo.mapper.ex.ArticleEXMapper">
+    <resultMap id="abn" type="com.briup.smalldemo.bean.ex.ArticleEX">
+        <id column="id" property="id"/>
+        <result column="author" property="author"/>
+        <result column="clickTimes" property="clicktimes"/>
+        <result column="publishDate" property="publishdate"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"></result>
+        <association property="category" column="category_id" select="selectid">
+<!--     category_id的值传给select方法
+这里不像result那样是一一对应的
+association的作用关联，是将select方法中的返回值与category（bean对象）相对应
+将category_id传给select方法，在调用-->
+
+        </association>
+<!--参数是由前面方法传递来的参数
+名字随意#{ ****} 随便是啥都行-->
+
+    </resultMap>
+    <select id="findAll" resultMap="abn">
+        select * from cms_article
+    </select>
+    <select id="selectid" resultType="com.briup.smalldemo.bean.Category">
+          select * from cms_category where id = #{id}
+    </select>
+    <select id="selectTitleOrWord" resultMap="abn">
+        select  * from  cms_article where  author like #{qq}or title LIKE #{ewe}
+    </select>
+
+    <select id="selectTitle" resultMap="abn">
+        select  * from  cms_article where title like #{qq}
+    </select>
+
+    <select id="SelectAuthor" resultMap="abn">
+        select  * from  cms_article where  author like #{qq}
+    </select>
+
+</mapper>
